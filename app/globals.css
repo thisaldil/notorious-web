@@ -1,31 +1,93 @@
 @import "tailwindcss";
+
 @theme {
-  --color-ink: #000; --color-paper: #f5f5f3; --color-mute: #666; --color-line: #d9d9d9;
+  --color-ink: #000;
+  --color-paper: #f5f5f3;
+  --color-mute: #666;
+  --color-line: #d9d9d9;
   --font-display: var(--font-anton), Impact, sans-serif;
   --font-sans: var(--font-grotesk), system-ui, sans-serif;
 }
-html { scroll-behavior: smooth; }
-body { background: var(--color-paper); color: var(--color-ink); font-family: var(--font-sans); overflow-x: hidden; }
-:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
-.display { font-family: var(--font-display); text-transform: uppercase; line-height: .85; letter-spacing: -.01em; }
-.display-xl { font-size: 23.5vw; white-space: nowrap; }
-.label { font-size: .7rem; letter-spacing: .3em; text-transform: uppercase; }
-.wrap { padding-inline: clamp(1rem, 3.5vw, 3.5rem); }
-/* distressed ink: noise alpha mask knocks speckles out of solid black */
-.dust {
-  --scratches: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='700' height='500'><filter id='s'><feTurbulence type='fractalNoise' baseFrequency='.004 .45' numOctaves='3' seed='7'/><feColorMatrix values='0 0 0 0 .96  0 0 0 0 .96  0 0 0 0 .95  22 0 0 0 -12.4'/></filter><rect width='700' height='500' filter='url(%23s)'/></svg>");
-  --specks: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='d'><feTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 .96  0 0 0 0 .96  0 0 0 0 .95  40 0 0 0 -25.6'/></filter><rect width='300' height='300' filter='url(%23d)'/></svg>");
 
-  color: transparent;
-  background-color: #000;
-  background-image: var(--specks), var(--scratches);
-  background-size: 300px 300px, 700px 500px;
-  -webkit-background-clip: text;
-  background-clip: text;
-}.grain::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .18; mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/></filter><rect width='200' height='200' filter='%23g'/></svg>"); }
-.brush { background: radial-gradient(120% 40% at 30% 50%, #000 40%, transparent 70%); clip-path: polygon(0 55%, 18% 30%, 55% 8%, 100% 0, 92% 40%, 60% 70%, 20% 100%, 0 100%); }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+/* ---------- Typography ---------- */
+.display {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  line-height: 0.85;
+    letter-spacing: -.01em;
+}
+.display-xl { font-size: 23.5vw; white-space: nowrap; }
+
+.label {
+  font-size: .7rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+}
+
+/* Poster-style small text that scales with the title */
+.label-hero {
+  font-size: clamp(0.62rem, 1.15vw, 1.15rem);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.hero-title { font-size: 23.5vw; white-space: nowrap; }
+@media (min-width: 768px) {
+  .hero-title { font-size: 23.5cqw; }
+}
+@media (max-width: 767px) {
+  .label-hero { font-size: 0.68rem; }
+}
+
+.wrap { padding-inline: clamp(1rem, 3.5vw, 3.5rem); }
+
+/* ---------- Texture ---------- */
+/* Scratches PNG cuts through the black letters across the whole word */
+.grunge {
+  -webkit-mask-image: url("/images/hero/scratches.png"), linear-gradient(#000, #000);
+  mask-image: url("/images/hero/scratches.png"), linear-gradient(#000, #000);
+  -webkit-mask-size: 100% 100%, 100% 100%;
+  mask-size: 100% 100%, 100% 100%;
+  -webkit-mask-repeat: no-repeat, no-repeat;
+  mask-repeat: no-repeat, no-repeat;
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* Paper grain overlay (parent must be position: relative) */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .06; /* was .18, which turned the whole page grey */
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/></filter><rect width='200' height='200' filter='%23g'/></svg>");
+}
+
+/* Diagonal dry-brush streak, like the poster */
+.brush {
+  background: #000;
+  clip-path: polygon(100% 0, 93% 6%, 88% 12%, 79% 21%, 70% 30%, 58% 42%, 48% 52%, 36% 63%, 25% 74%, 12% 88%, 0 100%, 9% 100%, 18% 97%, 38% 86%, 55% 74%, 70% 60%, 84% 42%, 92% 26%, 97% 12%);
+}
+
+/* ---------- Marquee ---------- */
 @keyframes marquee { to { transform: translateX(-50%); } }
 .marquee-track { animation: marquee 28s linear infinite; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
-@media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } html { scroll-behavior: auto; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+  html { scroll-behavior: auto; }
+}

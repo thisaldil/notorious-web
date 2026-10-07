@@ -116,7 +116,7 @@ export function ContactForm() {
         <p role="status" aria-live="polite" className="min-h-6">
           {status === "sent" && "Message sent. We'll get back to you soon."}
           {status === "error" &&
-            "Something went wrong. Please try again or email hello@wearnotorious.com."}
+            "Something went wrong. Please try again or email hello@notoriousco.com."}
         </p>
       </div>
     </form>

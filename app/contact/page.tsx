@@ -49,10 +49,10 @@ export default function ContactPage() {
               <dt className="label-hero text-mute">Email</dt>
               <dd className="mt-2 text-lg md:text-xl">
                 <a
-                  href="mailto:hello@wearnotorious.com"
+                  href="mailto:hello@notoriousco.com"
                   className="underline decoration-1 underline-offset-4 hover:text-mute"
                 >
-                  hello@wearnotorious.com
+                  hello@notoriousco.com
                 </a>
               </dd>
             </div>
@@ -96,10 +96,12 @@ export default function ContactPage() {
 
           <p className="label-hero mt-8 text-paper/70">Contact</p>
           <a
-            href="mailto:collab@wearnotorious.com"
+            href="mailto:collab@notoriousco.com
+"
             className="mt-2 inline-block text-lg underline decoration-1 underline-offset-4 hover:text-paper/70 md:text-xl"
           >
-            collab@wearnotorious.com
+            collab@notoriousco.com
+
           </a>
         </div>
       </section>
